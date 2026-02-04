@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathBoard</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="modal.css">
+</head>
+<body>
+
+    <div class="container">
+        <header class="header-section">
+            <h1>MathBoard</h1>
+            <p>"Transforma ecuaciones complejas en presentaciones interactivas. MathBoard combina la precisión de LaTeX con la libertad de una pizarra digital para que cada paso de tu explicación sea impecable y dinámico."</p>
+        </header>
+
+        <main class="cards-grid">
+            <article class="card">
+                <img src="images/cards/board.png" alt="Nuevo">
+                <h2>Nueva Presentación</h2>
+                <p>Genere una nueva presentaciones a partir de formato LaTeX</p>
+                <button class="btn" id="botonCrearMain">Crear</button>
+            </article>
+            
+            <article class="card">
+                <img src="images/cards/archivos.png" alt="Cargar">
+                <h2>Cargar Ejercicio</h2>
+                <p>Recupere y edite ejercicios guardados en formato LaTeX</p>
+                <button class="btn" id="botonCargarMain">Cargar</button>
+            </article>
+
+            <article class="card">
+                <img src="images/cards/Guia.png" alt="Guia">
+                <h2>Guia de Usuario</h2>
+                <p>Explore las funciones y herramientas de MathBoard</p>
+                <a href="#" class="btn">Aprender</a>
+            </article>
+
+            <article class="card">
+                <img src="images/cards/acercade.png" alt="Acerca">
+                <h2>Acerca de:</h2>
+                <p>Licencias de uso y equipo de desarrollo detrás de esta solución educativa.</p>
+                <a href="#" class="btn">Información</a>
+            </article>
+
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h2 id="titulo-modal">Título del Modal</h2>
+                        <span class="close">&times;</span>
+                    </div>
+
+                    <div class="modal-body" id="contenido-modal">
+
+                    </div>
+
+                </div>
+            </div>
+
+            <script src="mainscript.js"></script>
+            <script src="modal.js"></script>
+
+        </main>
+    </div>
+
+</body>
+</html>

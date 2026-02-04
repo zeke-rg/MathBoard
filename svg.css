@@ -1,0 +1,19 @@
+#output-wrapper {
+    position: relative;
+}
+
+
+#draw-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;   /* cubre todo el ancho del output-wrapper */
+    height: 100%;  /* cubre toda la altura */
+    z-index: 10;   /* más alto que el output */
+    pointer-events: auto; /* para que puedas dibujar */
+}
+
+#output {
+    position: relative; /* para no interferir con el SVG */
+    z-index: 1;
+}
