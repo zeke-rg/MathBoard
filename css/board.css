@@ -1,0 +1,35 @@
+/* board.css */
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #f4f6f8;
+}
+
+#output-wrapper {
+    position: relative;
+    max-width: 900px;
+    margin: 2rem auto;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+/* capa latex */
+#output {
+    position: relative;
+    z-index: 1;
+}
+
+/* capa dibujo */
+#draw-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* cuando dibujas */
+.modo-dibujar #draw-layer {
+    pointer-events: all;
+}

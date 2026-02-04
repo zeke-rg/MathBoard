@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MathBoard</title>
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="modal.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/modal.css">
 </head>
 <body>
 
@@ -16,6 +16,22 @@
         </header>
 
         <main class="cards-grid">
+
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h2 id="titulo-modal">Título del Modal</h2>
+                        <span class="close">&times;</span>
+                    </div>
+
+                    <div class="modal-body" id="contenido-modal">
+
+                    </div>
+
+                </div>
+            </div>
+
             <article class="card">
                 <img src="images/cards/board.png" alt="Nuevo">
                 <h2>Nueva Presentación</h2>
@@ -44,23 +60,8 @@
                 <a href="#" class="btn">Información</a>
             </article>
 
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h2 id="titulo-modal">Título del Modal</h2>
-                        <span class="close">&times;</span>
-                    </div>
-
-                    <div class="modal-body" id="contenido-modal">
-
-                    </div>
-
-                </div>
-            </div>
-
-            <script src="mainscript.js"></script>
-            <script src="modal.js"></script>
+            <script src="js/home.js"></script>
+            <script src="js/modal.js"></script>
 
         </main>
     </div>

@@ -7,6 +7,8 @@ botonCrearMain.addEventListener("click", () => {
         .then(data => {
             document.querySelector("#titulo-modal").innerHTML = "Nueva Presentación";
             document.querySelector("#contenido-modal").innerHTML = data;
+            inicializarVistaCrear();
+
             
             // Mostramos el modal
             document.getElementById("myModal").style.display = "block";
@@ -19,16 +21,39 @@ botonCargarMain.addEventListener("click", () => {
         .then(data => {
             document.querySelector("#titulo-modal").innerHTML = "Cargar Archivo";
             document.querySelector("#contenido-modal").innerHTML = data;
+            inicializarVistaCargar();
             
             // Mostramos el modal
             document.getElementById("myModal").style.display = "block";
         });
 });
 
+//Funciones Botones Modales
+function inicializarVistaCrear() {
+    const btnGenerar = document.getElementById('btnGenerarHome');
 
+    if (!btnGenerar) return;
 
-//LAst mod
-function inicializarEventosVista() {
+    btnGenerar.addEventListener('click', () => {
+        const titulo = document.getElementById('inputTitulo').value.trim();
+        const contenido = document.getElementById('inputHome').value.trim();
+
+        if (!contenido) {
+            alert("Ingrese el contenido LaTeX");
+            return;
+        }
+
+        localStorage.setItem('mathboard_data', JSON.stringify({
+            titulo,
+            contenido,
+            origen: 'crear'
+        }));
+
+        window.location.href = "board.html";
+    });
+}
+
+function inicializarVistaCargar(){
     // Lógica para la vista de CARGAR
     const dropZone = document.getElementById('drop-zone');
     const inputFisico = document.getElementById('inputCargarModal');
@@ -72,11 +97,15 @@ function procesarArchivo(archivo) {
     document.getElementById('btn-confirmar-carga').onclick = () => {
         const lector = new FileReader();
         lector.onload = (e) => {
-            const contenido = e.target.result;
-            // Aquí guardas en localStorage o rediriges a tu presentador
-            localStorage.setItem('ejercicio_actual', contenido);
-            window.location.href = "presentacion.html"; // O la ruta de tu editor
+            localStorage.setItem('mathboard_data', JSON.stringify({
+                titulo: archivo.name.replace('.txt', ''),
+                contenido: e.target.result,
+                origen: 'cargar'
+            }));
+
+            window.location.href = "board.html";
         };
+
         lector.readAsText(archivo);
     };
 }
