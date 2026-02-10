@@ -35,7 +35,7 @@ function inicializarVistaCrear() {
     if (!btnGenerar) return;
 
     btnGenerar.addEventListener('click', () => {
-        const titulo = document.getElementById('inputTitulo').value.trim();
+        const titulo = document.getElementById('inputTitulo').value.trim() || 'Ejercicio sin título';
         const contenido = document.getElementById('inputHome').value.trim();
 
         if (!contenido) {
@@ -48,6 +48,8 @@ function inicializarVistaCrear() {
             contenido,
             origen: 'crear'
         }));
+
+        document.getElementById("myModal").style.display = "none";
 
         window.location.href = "board.html";
     });
@@ -102,6 +104,8 @@ function procesarArchivo(archivo) {
                 contenido: e.target.result,
                 origen: 'cargar'
             }));
+
+            document.getElementById("myModal").style.display = "none";
 
             window.location.href = "board.html";
         };

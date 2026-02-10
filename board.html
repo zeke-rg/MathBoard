@@ -4,8 +4,44 @@
     <meta charset="UTF-8">
     <title>MathBoard</title>
     <link rel="stylesheet" href="css/board.css">
+    <link rel="stylesheet" href="css/svg.css">
+    <link rel="stylesheet" href="libs/katex/katex.min.css">
+    
 </head>
 <body>
+    <div id="toolbar" class="toolbar hidden">
+
+        <div class="toolbar-section">
+            <button id="btn-inicio">⏮</button>
+            <button id="btn-anterior">◀</button>
+            <button id="btn-siguiente">▶</button>
+            <button id="btn-final">⏭</button>
+        </div>
+
+        <div class="toolbar-section">
+            <button id="btn-dibujar">✏️</button>
+            <button id="btn-borrador">🧽</button>
+        </div>
+
+        <div class="toolbar-section">
+            <button id="btn-guardar">💾</button>
+        </div>
+
+        <div class="toolbar-section">
+            <button data-color="#000000">⚫</button>
+            <button data-color="#e53935">🔴</button>
+            <button data-color="#1e88e5">🔵</button>
+            <button data-color="#43a047">🟢</button>
+            <br>
+            <button id="btnLapiz">✏️ Lápiz</button>
+            <button id="btnBorrador">🧹 Borrador</button>
+            <button id="btnLinea">📏 Línea</button>
+            <button id="btnRectangulo">⬛ Rectángulo</button>
+            <button id="btnCirculo">⭕ Círculo</button>
+            <button id="btnFlecha">➡️ Flecha</button>
+        </div>
+
+    </div>
 
     <header class="board-header">
         <h1 id="titulo-ejercicio"></h1>
@@ -18,12 +54,15 @@
             <svg id="draw-layer"></svg>
         </section>
 
-        <aside class="tools-panel">
-
-        </aside>
-
     </main>
 
+    <script src="libs/katex/katex.min.js"></script>
+    <script src="js/dom.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/parser.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/draw.js"></script>
     <script src="js/board.js"></script>
 </body>
 </html>
