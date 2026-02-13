@@ -50,26 +50,38 @@ function crearPathInicial(x, y) {
     return path;
 }
 
-function crearDefinicionesSVG() {
-    const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+function crearMarkerParaColor(color) {
+
+    const id = `arrowhead-${color.replace('#', '')}`;
+
+    if (svg.querySelector(`#${id}`)) return id;
+
+    const defs = svg.querySelector('defs') ||
+        svg.insertBefore(
+            document.createElementNS("http://www.w3.org/2000/svg", "defs"),
+            svg.firstChild
+        );
 
     const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
-    marker.setAttribute('id', 'arrowhead');
-    marker.setAttribute('markerWidth', '10');
-    marker.setAttribute('markerHeight', '7');
-    marker.setAttribute('refX', '10');
-    marker.setAttribute('refY', '3.5');
+    marker.setAttribute('id', id);
+    marker.setAttribute('markerWidth', '8');
+    marker.setAttribute('markerHeight', '8');
+    marker.setAttribute('refX', '7');
+    marker.setAttribute('refY', '4');
     marker.setAttribute('orient', 'auto');
+    marker.setAttribute('markerUnits', 'strokeWidth');
 
-    const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-    polygon.setAttribute('points', '0 0, 10 3.5, 0 7');
-    polygon.setAttribute('fill', colorActual);
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute('d', 'M 0 0 L 8 4 L 0 8');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', color);
+    path.setAttribute('stroke-width', '1.5');
 
-    marker.appendChild(polygon);
+    marker.appendChild(path);
     defs.appendChild(marker);
-    svg.appendChild(defs);
-}
 
+    return id;
+}
 
 //RECTANGULO
 function crearRectangulo(x, y) {
@@ -106,6 +118,9 @@ function crearCirculo(x, y) {
 
 //FLECHA
 function crearFlecha(x, y) {
+
+    const markerId = crearMarkerParaColor(colorActual);
+
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 
     line.setAttribute('x1', x);
@@ -114,14 +129,13 @@ function crearFlecha(x, y) {
     line.setAttribute('y2', y);
 
     line.setAttribute('stroke', colorActual);
-    line.setAttribute('stroke-width', 2);
-    line.setAttribute('marker-end', 'url(#arrowhead)');
+    line.setAttribute('stroke-width', strokeWidth);
+    line.setAttribute('marker-end', `url(#${markerId})`);
     line.dataset.step = getPasoActual();
 
     svg.appendChild(line);
     return line;
 }
-
 
 // ===============================
 // MOUSE DOWN
@@ -140,6 +154,12 @@ svg.addEventListener('mousedown', (e) => {
         pathActual = crearPathInicial(x, y);
     }
 
+    if (herramientaActual === 'linea') {
+        pathActual = crearFlecha(x, y);
+        pathActual.removeAttribute('marker-end');
+    }
+
+
     if (herramientaActual === 'rectangulo') {
         pathActual = crearRectangulo(x, y);
         pathActual.dataset.x0 = x;
@@ -155,6 +175,30 @@ svg.addEventListener('mousedown', (e) => {
     if (herramientaActual === 'flecha') {
         pathActual = crearFlecha(x, y);
     }
+
+    if (herramientaActual === 'borrador') {
+
+    let elemento = e.target;
+
+    // subir hasta encontrar elemento dibujado
+    while (elemento && elemento !== svg) {
+
+        if (
+            elemento.tagName === 'path' ||
+            elemento.tagName === 'rect' ||
+            elemento.tagName === 'circle' ||
+            elemento.tagName === 'line'
+        ) {
+            svg.removeChild(elemento);
+            break;
+        }
+
+        elemento = elemento.parentNode;
+    }
+
+    return;
+}
+
 
 });
 
@@ -180,6 +224,12 @@ svg.addEventListener('mousemove', (e) => {
         pathActual.setAttribute('d', d);
     }
 
+    if (herramientaActual === 'linea') {
+        pathActual.setAttribute('x2', x);
+        pathActual.setAttribute('y2', y);
+    }
+
+
     if (herramientaActual === 'rectangulo') {
         const x0 = pathActual.dataset.x0;
         const y0 = pathActual.dataset.y0;
@@ -201,6 +251,19 @@ svg.addEventListener('mousemove', (e) => {
         pathActual.setAttribute('y2', y);
     }
 
+    if (herramientaActual === 'borrador') {
+    if (e.target.tagName.toLowerCase() === 'path' ||
+        e.target.tagName.toLowerCase() === 'rect' ||
+        e.target.tagName.toLowerCase() === 'circle' ||
+        e.target.tagName.toLowerCase() === 'line') {
+
+        svg.removeChild(e.target);
+    }
+    return;
+}
+
+
+
 });
 
 // ===============================
@@ -212,6 +275,18 @@ svg.addEventListener('mouseleave', terminarTrazo);
 document.addEventListener('mouseup', terminarTrazo);
 
 // ===============================
+// COLORES
+// ===============================
+
+dom.btnsColor.forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (!isModoDibujar()) return;
+        colorActual = btn.dataset.color;
+    });
+});
+
+
+// ===============================
 // INTEGRACION CON BOTONES
 // ===============================
 
@@ -219,3 +294,28 @@ function setHerramienta(nombre) {
     herramientaActual = nombre;
 }
 
+// ===============================
+// Modo Dibujo
+// ===============================
+
+function actualizarModoDibujar() {
+    if (isModoDibujar()) {
+
+        dom.btnAnterior.disabled = true;
+        dom.btnSiguiente.disabled = true;
+        dom.btnInicio.disabled = true;
+        dom.btnFinal.disabled = true;
+        dom.btnGenerar.disabled = true;
+        dom.btnGuardar.disabled = true;
+        dom.btnLimpiar.disabled = true;
+        dom.btnCargar.disabled = true;
+
+        document.body.classList.add('modo-dibujar');
+
+    } else {
+
+        document.body.classList.remove('modo-dibujar');
+
+        actualizarEstadoBotones();
+    }
+}

@@ -25,7 +25,7 @@ function renderizarPaso(textoPaso, numeroPaso) {
     }
 
     pasoDiv.appendChild(mathDiv);
-    output.appendChild(pasoDiv);
+    dom.output.appendChild(pasoDiv);
 }
 
 
@@ -40,6 +40,10 @@ function actualizarPantalla(hastaPaso) {
     }
 
     setPasoActual(hastaPaso);
+
+    marcarPasoActual(hastaPaso);
+    actualizarSizeSVG();
+    actualizarVisibilidadTrazos();
 }
 
 // Eliminar ultimo paso
@@ -56,22 +60,38 @@ function eliminarUltimoPasoRender() {
 
 function limpiarOutput() {
     dom.output.innerHTML = '';
-    dom.drawLayer.innerHTML = '';
+    //dom.drawLayer.innerHTML = '';
 }
 
 
 
 function marcarPasoActual(paso) {
-    document.querySelectorAll('.step').forEach(el => {
+    document.querySelectorAll('.paso').forEach(el => {
         el.classList.remove('active');
     });
 
-    const actual = document.querySelector(`.step[data-step="${paso}"]`);
+    const actual = document.querySelector(`.paso[data-step="${paso}"]`);
     if (actual) {
         actual.classList.add('active');
         actual.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        scrollAlPasoActual();
     }
 }
+
+function scrollAlPasoActual() {
+    const pasoActual = dom.output.querySelector('.paso.actual');
+    if (!pasoActual) return;
+
+    const contenedor = dom.output;
+
+    const pasoRect = pasoActual.getBoundingClientRect();
+    const contenedorRect = contenedor.getBoundingClientRect();
+
+    const offset = pasoRect.top - contenedorRect.top;
+
+    contenedor.scrollTop += offset - 20;
+}
+
 
 
 // ===============================

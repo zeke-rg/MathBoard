@@ -1,19 +1,3 @@
-// =======================
-// DOOM
-// =======================
-
-// Botones navegación
-//const btnGenerar   = document.getElementById('btn-generar'); Inhabilitado
-const btnAnterior  = document.getElementById('btn-anterior');
-const btnSiguiente = document.getElementById('btn-siguiente');
-const btnInicio    = document.getElementById('btn-inicio');
-const btnFinal     = document.getElementById('btn-final');
-
-// Botones utilidades
-//const btnLimpiar = document.getElementById('btn-limpiar');
-const btnGuardar = document.getElementById('btn-guardar');
-const btnDibujar = document.getElementById('btn-dibujar');
-
 // Input
 const ejercicio = localStorage.getItem('ejercicio_actual');
 
@@ -74,16 +58,25 @@ function inicializarBoard() {
 
 //btnGenerar.addEventListener('click', generarPresentacion); Inhabilitado
 
-btnAnterior.addEventListener('click', pasoAnterior);
-btnSiguiente.addEventListener('click', pasoSiguiente);
-btnInicio.addEventListener('click', irAlInicio);
-btnFinal.addEventListener('click', irAlFinal);
+dom.btnAnterior.addEventListener('click', pasoAnterior);
+dom.btnSiguiente.addEventListener('click', pasoSiguiente);
+dom.btnInicio.addEventListener('click', irAlInicio);
+dom.btnFinal.addEventListener('click', irAlFinal);
 
 //btnLimpiar.addEventListener('click', limpiarTodo);
 
-btnGuardar.addEventListener('click', guardarEjercicio);
+dom.btnGuardar.addEventListener('click', guardarEjercicio);
 
-btnDibujar.addEventListener('click', toggleModoDibujo);
+dom.btnDibujar.addEventListener('click', toggleModoDibujo);
+
+//HERRAMIENTAS
+dom.btnLapiz.addEventListener('click', () => herramientaActual = 'lapiz');
+dom.btnBorrador.addEventListener('click', () => herramientaActual = 'borrador');
+dom.btnLinea.addEventListener('click', () => herramientaActual = 'linea');
+dom.btnRectangulo.addEventListener('click', () => herramientaActual = 'rectangulo');
+dom.btnCirculo.addEventListener('click', () => herramientaActual = 'circulo');
+dom.btnFlecha.addEventListener('click', () => herramientaActual = 'flecha');
+
 
 
 // =======================
@@ -121,7 +114,28 @@ function guardarEjercicio() {
 
 function toggleModoDibujo() {
     setModoDibujar(!getModoDibujar());
-    btnDibujar.textContent = getModoDibujar()
+    dom.btnDibujar.textContent = getModoDibujar()
         ? 'Desactivar Dibujo'
         : 'Activar Dibujo';
+}
+
+// board.js
+
+function actualizarEstadoBotones() {
+    const hayPasos = getTotalPasos() > 0;
+    const hayInput = dom.input.value.trim() !== '';
+    const pasoActual = getPasoActual();
+    const total = getTotalPasos();
+
+    dom.btnAnterior.disabled = !hayPasos || pasoActual <= 1;
+    dom.btnInicio.disabled   = !hayPasos || pasoActual <= 1;
+
+    dom.btnSiguiente.disabled = !hayPasos || pasoActual >= total;
+    dom.btnFinal.disabled     = !hayPasos || pasoActual >= total;
+
+    dom.btnGenerar.disabled = !hayInput;
+    dom.btnLimpiar.disabled = !hayInput;
+    dom.btnGuardar.disabled = !hayInput;
+
+    dom.btnCargar.disabled = false;
 }
