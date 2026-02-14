@@ -138,11 +138,14 @@ function crearFlecha(x, y) {
 }
 
 // ===============================
-// MOUSE DOWN
+// POINTER DOWN
 // ===============================
 
-svg.addEventListener('mousedown', (e) => {
+svg.addEventListener('pointerdown', (e) => {
+
     if (!isModoDibujar()) return;
+
+    svg.setPointerCapture(e.pointerId);
 
     terminarTrazo();
     dibujando = true;
@@ -158,7 +161,6 @@ svg.addEventListener('mousedown', (e) => {
         pathActual = crearFlecha(x, y);
         pathActual.removeAttribute('marker-end');
     }
-
 
     if (herramientaActual === 'rectangulo') {
         pathActual = crearRectangulo(x, y);
@@ -178,35 +180,34 @@ svg.addEventListener('mousedown', (e) => {
 
     if (herramientaActual === 'borrador') {
 
-    let elemento = e.target;
+        let elemento = e.target;
 
-    // subir hasta encontrar elemento dibujado
-    while (elemento && elemento !== svg) {
+        while (elemento && elemento !== svg) {
 
-        if (
-            elemento.tagName === 'path' ||
-            elemento.tagName === 'rect' ||
-            elemento.tagName === 'circle' ||
-            elemento.tagName === 'line'
-        ) {
-            svg.removeChild(elemento);
-            break;
+            if (
+                elemento.tagName === 'path' ||
+                elemento.tagName === 'rect' ||
+                elemento.tagName === 'circle' ||
+                elemento.tagName === 'line'
+            ) {
+                svg.removeChild(elemento);
+                break;
+            }
+
+            elemento = elemento.parentNode;
         }
 
-        elemento = elemento.parentNode;
+        return;
     }
-
-    return;
-}
-
 
 });
 
 // ===============================
-// MOUSE MOVE
+// POINTER MOVE
 // ===============================
 
-svg.addEventListener('mousemove', (e) => {
+svg.addEventListener('pointermove', (e) => {
+
     if (!dibujando || !pathActual) return;
 
     const { x, y } = obtenerCoordenadasSVG(e);
@@ -224,15 +225,15 @@ svg.addEventListener('mousemove', (e) => {
         pathActual.setAttribute('d', d);
     }
 
-    if (herramientaActual === 'linea') {
+    if (herramientaActual === 'linea' || herramientaActual === 'flecha') {
         pathActual.setAttribute('x2', x);
         pathActual.setAttribute('y2', y);
     }
 
-
     if (herramientaActual === 'rectangulo') {
         const x0 = pathActual.dataset.x0;
         const y0 = pathActual.dataset.y0;
+
         pathActual.setAttribute('width', Math.abs(x - x0));
         pathActual.setAttribute('height', Math.abs(y - y0));
         pathActual.setAttribute('x', Math.min(x, x0));
@@ -246,33 +247,46 @@ svg.addEventListener('mousemove', (e) => {
         pathActual.setAttribute('r', r);
     }
 
-    if (herramientaActual === 'flecha') {
-        pathActual.setAttribute('x2', x);
-        pathActual.setAttribute('y2', y);
-    }
-
     if (herramientaActual === 'borrador') {
-    if (e.target.tagName.toLowerCase() === 'path' ||
-        e.target.tagName.toLowerCase() === 'rect' ||
-        e.target.tagName.toLowerCase() === 'circle' ||
-        e.target.tagName.toLowerCase() === 'line') {
 
-        svg.removeChild(e.target);
+        let elemento = e.target;
+
+        while (elemento && elemento !== svg) {
+
+            if (
+                elemento.tagName === 'path' ||
+                elemento.tagName === 'rect' ||
+                elemento.tagName === 'circle' ||
+                elemento.tagName === 'line'
+            ) {
+                svg.removeChild(elemento);
+                break;
+            }
+
+            elemento = elemento.parentNode;
+        }
+
+        return;
     }
-    return;
-}
-
-
 
 });
 
 // ===============================
-// MOUSE UP
-// ===============================
+// POINTER UP
+// =============================== 
 
-svg.addEventListener('mouseup', terminarTrazo);
-svg.addEventListener('mouseleave', terminarTrazo);
-document.addEventListener('mouseup', terminarTrazo);
+svg.addEventListener('pointerup', (e) => {
+    svg.releasePointerCapture(e.pointerId);
+    terminarTrazo();
+});
+
+svg.addEventListener('pointerleave', terminarTrazo);
+
+// ===============================
+// POINTER LEAVE
+// ==============================
+
+svg.addEventListener('pointerleave', terminarTrazo);
 
 // ===============================
 // COLORES
