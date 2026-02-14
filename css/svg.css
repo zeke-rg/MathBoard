@@ -17,3 +17,7 @@
     position: relative; /* para no interferir con el SVG */
     z-index: 1;
 }
+
+svg {
+    touch-action: none;
+}
