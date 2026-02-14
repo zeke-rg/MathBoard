@@ -113,3 +113,16 @@ function procesarArchivo(archivo) {
         lector.readAsText(archivo);
     };
 }
+
+// --- Undo/Redo ---
+document.addEventListener("keydown", (e) => {
+
+    if ((e.ctrlKey || e.metaKey) && e.key === "z") {
+        undo();
+    }
+
+    if ((e.ctrlKey || e.metaKey) && e.key === "y") {
+        redo();
+    }
+
+});

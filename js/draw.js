@@ -25,9 +25,27 @@ function obtenerCoordenadasSVG(evento) {
 }
 
 function terminarTrazo() {
+    /*dibujando = false;
+    pathActual = null;
+    puntos = [];*/
+    if (!dibujando || !pathActual) {
+        dibujando = false;
+        pathActual = null;
+        puntos = [];
+        return;
+    }
+
+    // Registrar acción de creación
+    historial.push({
+        tipo: "crear",
+        elemento: pathActual,
+        parent: svg
+    });
+
+    historialRedo = [];
+
     dibujando = false;
     pathActual = null;
-    puntos = [];
 }
 
 // ===============================
@@ -190,7 +208,7 @@ svg.addEventListener('pointerdown', (e) => {
                 elemento.tagName === 'circle' ||
                 elemento.tagName === 'line'
             ) {
-                svg.removeChild(elemento);
+                registrarEliminacion(elemento);
                 break;
             }
 
@@ -259,7 +277,7 @@ svg.addEventListener('pointermove', (e) => {
                 elemento.tagName === 'circle' ||
                 elemento.tagName === 'line'
             ) {
-                svg.removeChild(elemento);
+                registrarEliminacion(elemento);
                 break;
             }
 
@@ -332,4 +350,94 @@ function actualizarModoDibujar() {
 
         actualizarEstadoBotones();
     }
+}
+
+// ===============================
+// UNDO / REDO
+// ===============================
+
+function registrarEliminacion(elemento) {
+
+    historial.push({
+        tipo: "eliminar",
+        elemento: elemento,
+        parent: svg
+    });
+
+    historialRedo = [];
+
+    svg.removeChild(elemento);
+}
+
+function undo(){
+    const accion = historial.pop();
+    if (!accion) return;
+
+    if (accion.tipo === "crear") {
+        accion.parent.removeChild(accion.elemento);
+    }
+
+    if (accion.tipo === "eliminar") {
+        accion.parent.appendChild(accion.elemento);
+    }
+
+    if (accion.tipo === "limpiarTodo") {
+    accion.elementos.forEach(el => {
+        accion.parent.appendChild(el);
+    });
+}
+
+
+    historialRedo.push(accion);
+}
+
+function redo(){
+    const accion = historialRedo.pop();
+    if (!accion) return;
+
+    if (accion.tipo === "crear") {
+        accion.parent.appendChild(accion.elemento);
+    }
+
+    if (accion.tipo === "eliminar") {
+        accion.parent.removeChild(accion.elemento);
+    }
+
+    if (accion.tipo === "limpiarTodo") {
+    accion.elementos.forEach(el => {
+        if (el.parentNode === accion.parent) {
+            accion.parent.removeChild(el);
+        }
+    });
+}
+
+
+    historial.push(accion);
+}
+
+// ===============================
+// limpiar Dibujo
+// ===============================
+
+function limpiarDibujo() {
+
+    const elementos = Array.from(
+        svg.querySelectorAll("path, rect, circle, line")
+    );
+
+    if (elementos.length === 0) return;
+
+    historial.push({
+        tipo: "limpiarTodo",
+        elementos: elementos,
+        parent: svg
+    });
+
+    historialRedo = [];
+
+    elementos.forEach(el => {
+        if (el.parentNode === svg) {
+            svg.removeChild(el);
+        }
+    });
 }

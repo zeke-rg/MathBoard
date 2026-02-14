@@ -9,6 +9,9 @@ let pasoActual = 0;    // Índice del paso actual (1-based)
 // --- Modo dibujo ---
 let modoDibujar = false;
 
+// --- Undo/Redo ---
+let historial = [];
+let historialRedo = [];
 
 function isModoDibujar() {
     return modoDibujar;
@@ -18,6 +21,20 @@ function toggleModoDibujar() {
     modoDibujar = !modoDibujar;
     return modoDibujar;
 }
+
+// --- Undo/Redo ---
+function limpiarRedo() {
+    historialRedo = [];
+}
+
+function pushHistorial(accion) {
+    historial.push(accion);
+}
+
+function pushRedo(accion) {
+    historialRedo.push(accion);
+}
+
 
 // ===============================
 // INICIALIZAR STATE
@@ -64,6 +81,13 @@ function getModoDibujar() {
     return modoDibujar;
 }
 
+function getHistorial() {
+    return historial;
+}
+
+function getHistorialRedo() {
+    return historialRedo;
+}
 
 // ===============================
 // SETTERS
