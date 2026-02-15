@@ -6,7 +6,6 @@ function irAlInicio() {
     if (!hayPasos()) return;
 
     actualizarPantalla(1);
-    actualizarVisibilidadTrazos();
 }
 
 
@@ -15,7 +14,6 @@ function irAlFinal() {
 
     const total = getTotalPasos();
     actualizarPantalla(total);
-    actualizarVisibilidadTrazos();
 }
 
 

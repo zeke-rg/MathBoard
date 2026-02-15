@@ -1,10 +1,9 @@
-var modal = document.getElementById("myModal");
-var closeBtn = document.getElementsByClassName("close")[0];
+const modal = document.getElementById("myModal");
+const closeBtn = document.getElementsByClassName("close")[0];
 
-
-function openModal() {
-    modal.style.display = "block";
-}
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") modal.style.display = "none";
+});
 
 closeBtn.onclick = function() {
     modal.style.display = "none";

@@ -1,6 +1,3 @@
-// Input
-const ejercicio = localStorage.getItem('ejercicio_actual');
-
 // =======================
 // INICIALIZACIÓN
 // =======================
@@ -98,9 +95,10 @@ function limpiarTodo() {
 }
 
 function guardarEjercicio() {
-    const texto = input.value.trim();
-    if (!texto) return alert('No hay contenido');
+    const pasos = getPasos(); // ✅ leemos desde el estado
+    if (!pasos || pasos.length === 0) return alert('No hay contenido');
 
+    const texto = pasos.join('\n\n'); // reunimos los pasos con línea vacía entre ellos
     const blob = new Blob([texto], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
 
@@ -113,8 +111,8 @@ function guardarEjercicio() {
 }
 
 function toggleModoDibujo() {
-    setModoDibujar(!getModoDibujar());
-    dom.btnDibujar.textContent = getModoDibujar()
+    setModoDibujar(!isModoDibujar());
+    dom.btnDibujar.textContent = isModoDibujar()
         ? 'Desactivar Dibujo'
         : 'Activar Dibujo';
 }

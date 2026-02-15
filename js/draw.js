@@ -298,8 +298,6 @@ svg.addEventListener('pointerup', (e) => {
     terminarTrazo();
 });
 
-svg.addEventListener('pointerleave', terminarTrazo);
-
 // ===============================
 // POINTER LEAVE
 // ==============================
@@ -337,10 +335,10 @@ function actualizarModoDibujar() {
         dom.btnSiguiente.disabled = true;
         dom.btnInicio.disabled = true;
         dom.btnFinal.disabled = true;
-        dom.btnGenerar.disabled = true;
+        //dom.btnGenerar.disabled = true;
         dom.btnGuardar.disabled = true;
-        dom.btnLimpiar.disabled = true;
-        dom.btnCargar.disabled = true;
+        //dom.btnLimpiar.disabled = true;
+        //dom.btnCargar.disabled = true;
 
         document.body.classList.add('modo-dibujar');
 

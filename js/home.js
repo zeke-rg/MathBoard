@@ -52,7 +52,7 @@ function inicializarVistaCrear() {
         document.getElementById("myModal").style.display = "none";
 
         window.location.href = "board.html";
-    });
+    }, {once: true});
 }
 
 function inicializarVistaCargar(){
@@ -113,16 +113,3 @@ function procesarArchivo(archivo) {
         lector.readAsText(archivo);
     };
 }
-
-// --- Undo/Redo ---
-document.addEventListener("keydown", (e) => {
-
-    if ((e.ctrlKey || e.metaKey) && e.key === "z") {
-        undo();
-    }
-
-    if ((e.ctrlKey || e.metaKey) && e.key === "y") {
-        redo();
-    }
-
-});

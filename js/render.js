@@ -79,7 +79,7 @@ function marcarPasoActual(paso) {
 }
 
 function scrollAlPasoActual() {
-    const pasoActual = dom.output.querySelector('.paso.actual');
+    const pasoActual = dom.output.querySelector('.paso.active');
     if (!pasoActual) return;
 
     const contenedor = dom.output;

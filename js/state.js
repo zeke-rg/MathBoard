@@ -46,23 +46,6 @@ function inicializarState() {
 }
 
 // ===============================
-// INICIALIZAR BOTONES
-// ===============================
-
-function inicializarBotonesDibujo() {
-    dom.btnLapiz.disabled = true;
-    dom.btnBorrador.disabled = true;
-    dom.btnLinea.disabled = true;
-    dom.btnRectangulo.disabled = true;
-    dom.btnCirculo.disabled = true;
-    dom.btnFlecha.disabled = true;
-
-    dom.btnsColor.forEach(btn => btn.disabled = true);
-}
-
-
-
-// ===============================
 // GETTERS
 // ===============================
 function getPasos() {
@@ -75,10 +58,6 @@ function getPasoActual() {
 
 function getTotalPasos() {
     return pasos.length;
-}
-
-function getModoDibujar() {
-    return modoDibujar;
 }
 
 function getHistorial() {
