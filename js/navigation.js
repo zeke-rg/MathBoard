@@ -4,6 +4,7 @@
 
 function irAlInicio() {
     if (!hayPasos()) return;
+    if (modoAligned) toggleModoAligned();
 
     actualizarPantalla(1);
 }
@@ -11,6 +12,7 @@ function irAlInicio() {
 
 function irAlFinal() {
     if (!hayPasos()) return;
+    if (modoAligned) toggleModoAligned();
 
     const total = getTotalPasos();
     actualizarPantalla(total);
@@ -18,6 +20,7 @@ function irAlFinal() {
 
 
 function pasoSiguiente() {
+    if (modoAligned) toggleModoAligned();
     const actual = getPasoActual();
     const total = getTotalPasos();
 
@@ -33,6 +36,7 @@ function pasoSiguiente() {
 
 
 function pasoAnterior() {
+    if (modoAligned) toggleModoAligned();
     const actual = getPasoActual();
     if (actual <= 1) return;
 

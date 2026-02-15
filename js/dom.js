@@ -15,6 +15,7 @@ const dom = {
     btnGuardar: document.getElementById('btn-guardar'),
     btnDibujar: document.getElementById('btn-dibujar'),
     btnNotas: document.getElementById('btn-notas'),
+    btnAlinear: document.getElementById('btn-alinear'),
 
     // HERRAMIENTAS
     btnBorrador: document.getElementById('btnBorrador'),

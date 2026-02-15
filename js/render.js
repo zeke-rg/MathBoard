@@ -118,3 +118,57 @@ function actualizarSizeSVG() {
     /*drawLayer.setAttribute('width', rect.width);
     drawLayer.setAttribute('height', rect.height);*/
 }
+
+// ===============================
+// MODO ALIGNED
+// ===============================
+
+let modoAligned = false;
+
+function toggleModoAligned() {
+    modoAligned = !modoAligned;
+    dom.btnAlinear.textContent = modoAligned ? '⇌ Navegación' : '⇌ Alinear';
+
+    if (modoAligned) {
+        renderizarModoAligned();
+    } else {
+        actualizarPantalla(getPasoActual());
+    }
+}
+
+function renderizarModoAligned() {
+    const pasos = getPasos();
+    const totalVisible = getPasoActual();
+
+    // Tomar solo los pasos visibles
+    const lineas = pasos.slice(0, totalVisible).map(paso => {
+        // Agregar & antes del primer = de cada línea
+        return paso.replace(/(?<!&)=/, '&=');
+    });
+
+    // Construir bloque aligned
+    const latex = `\\begin{aligned}\n${lineas.join(' \\\\\n')}\n\\end{aligned}`;
+
+    // Renderizar como un solo bloque
+    limpiarOutput();
+
+    const pasoDiv = document.createElement('div');
+    pasoDiv.classList.add('paso', 'active');
+    pasoDiv.dataset.step = totalVisible;
+
+    const mathDiv = document.createElement('div');
+    mathDiv.classList.add('math');
+
+    try {
+        mathDiv.innerHTML = katex.renderToString(latex, {
+            throwOnError: false,
+            displayMode: true
+        });
+    } catch (error) {
+        mathDiv.textContent = 'Error en el formato';
+        console.error(error);
+    }
+
+    pasoDiv.appendChild(mathDiv);
+    dom.output.appendChild(pasoDiv);
+}

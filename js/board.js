@@ -126,6 +126,7 @@ dom.btnFinal.addEventListener('click', irAlFinal);
 
 dom.btnGuardar.addEventListener('click', guardarEjercicio);
 dom.btnNotas.addEventListener('click', togglePanelNotas);
+dom.btnAlinear.addEventListener('click', toggleModoAligned);
 
 dom.btnDibujar.addEventListener('click', toggleModoDibujo);
 
