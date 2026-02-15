@@ -7,6 +7,9 @@ document.getElementById("btnRedo")
 document.getElementById("btn-limpiarDibujo")
     .addEventListener("click", limpiarDibujo);
 
+document.getElementById('btn-toggle-all-notas')
+    .addEventListener('click', toggleTodasLasNotas);
+
 // ===============================
 // INICIALIZAR BOTONES
 // ===============================

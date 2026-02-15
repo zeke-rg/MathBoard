@@ -13,6 +13,9 @@ let modoDibujar = false;
 let historial = [];
 let historialRedo = [];
 
+// --- Notas ---
+let notas = [];
+
 function isModoDibujar() {
     return modoDibujar;
 }
@@ -68,6 +71,15 @@ function getHistorialRedo() {
     return historialRedo;
 }
 
+function getNotas() {
+    return notas;
+}
+
+function getNotaPaso(numeroPaso) {
+    const encontrada = notas.find(n => n.id === numeroPaso);
+    return encontrada ? encontrada.nota : "";
+}
+
 // ===============================
 // SETTERS
 // ===============================
@@ -83,6 +95,9 @@ function setModoDibujar(valor) {
     modoDibujar = valor;
 }
 
+function setNotas(nuevasNotas) {
+    notas = nuevasNotas;
+}
 
 // ===============================
 // HELPERS
@@ -107,4 +122,5 @@ function resetState() {
     pasos = [];
     pasoActual = 0;
     modoDibujar = false;
+    notas = [];
 }

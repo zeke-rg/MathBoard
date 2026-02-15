@@ -86,8 +86,11 @@ function inicializarVistaCargar(){
 }
 
 function procesarArchivo(archivo) {
-    if (archivo.type !== "text/plain" && !archivo.name.endsWith('.txt')) {
-        alert("Por favor, sube un archivo de texto (.txt)");
+    const esTxt = archivo.type === "text/plain" || archivo.name.endsWith('.txt');
+    const esMathboard = archivo.name.endsWith('.mathboard');
+
+    if (!esTxt && !esMathboard) {
+        alert("Por favor, sube un archivo .txt o .mathboard");
         return;
     }
 
@@ -98,15 +101,43 @@ function procesarArchivo(archivo) {
     // Configurar el botón de confirmación
     document.getElementById('btn-confirmar-carga').onclick = () => {
         const lector = new FileReader();
+
         lector.onload = (e) => {
-            localStorage.setItem('mathboard_data', JSON.stringify({
-                titulo: archivo.name.replace('.txt', ''),
-                contenido: e.target.result,
-                origen: 'cargar'
-            }));
+            if (esMathboard) {
+                // Leer formato .mathboard
+                try {
+                    const data = JSON.parse(e.target.result);
+
+                    if (!data.meta || !data.pasos) {
+                        alert("El archivo .mathboard no es válido");
+                        return;
+                    }
+
+                    localStorage.setItem('mathboard_data', JSON.stringify({
+                        titulo: data.meta.titulo,
+                        contenido: data.pasos.map(p => p.latex).join('\n\n'),
+                        trazos: data.pasos.map(p => ({ id: p.id, trazos: p.trazos })),
+                        notas: data.pasos.map(p => ({ id: p.id, nota: p.nota })),
+                        origen: 'cargar'
+                    }));
+
+                } catch (err) {
+                    alert("Error al leer el archivo .mathboard");
+                    return;
+                }
+
+            } else {
+                // Leer formato .txt legacy
+                localStorage.setItem('mathboard_data', JSON.stringify({
+                    titulo: archivo.name.replace('.txt', ''),
+                    contenido: e.target.result,
+                    trazos: [],
+                    notas: [],
+                    origen: 'cargar'
+                }));
+            }
 
             document.getElementById("myModal").style.display = "none";
-
             window.location.href = "board.html";
         };
 

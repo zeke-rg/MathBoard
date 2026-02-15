@@ -6,13 +6,14 @@ body {
     background: #f4f6f8;
 }
 
+/* El output-wrapper no debe cambiar */
 #output-wrapper {
     position: relative;
-    max-width: 900px;
-    margin: 2rem auto;
+    width: 900px;      /* ✅ ancho fijo en lugar de max-width */
     background: white;
     padding: 1rem;
     border-radius: 8px;
+    margin: 2rem 0;    /* ✅ quitar auto para que flex lo maneje */
 }
 
 /* capa latex */
@@ -32,4 +33,135 @@ body {
 /* cuando dibujas */
 .modo-dibujar #draw-layer {
     pointer-events: all;
+}
+
+/* Layout principal con panel lateral */
+.board-main {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center; /* ✅ mantiene el centrado */
+    width: 100%;
+}
+
+/* Panel de notas lateral */
+.panel-notas {
+    width: 280px;
+    min-height: 200px;
+    background: white;
+    border-left: 2px solid #e0e0e0;
+    padding: 1rem;
+    margin: 2rem 1rem;
+    border-radius: 8px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.panel-notas h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+
+/* Cada nota individual */
+.nota-item {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.nota-item:last-child {
+    border-bottom: none;
+}
+
+.nota-label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #888;
+    margin-bottom: 0.25rem;
+}
+
+.nota-texto {
+    width: 100%;
+    min-height: 60px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 0.4rem;
+    font-size: 0.85rem;
+    font-family: system-ui, sans-serif;
+    resize: vertical;
+    box-sizing: border-box;
+    color: #333;
+}
+
+.nota-texto:focus {
+    outline: none;
+    border-color: #1e88e5;
+}
+
+/* Botón por paso */
+.btn-nota-paso {
+    position: absolute;
+    right: -2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+    z-index: 3;
+}
+
+.btn-nota-paso:hover {
+    opacity: 1;
+}
+
+/* Paso activo resaltado en el panel */
+.nota-item.activa .nota-label {
+    color: #1e88e5;
+}
+
+/* Ocultar panel */
+.panel-notas-hidden {
+    display: none;
+}
+
+/* Header de cada nota */
+.nota-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+/* Botón toggle individual */
+.btn-toggle-nota {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0;
+    opacity: 0.6;
+}
+
+.btn-toggle-nota:hover {
+    opacity: 1;
+}
+
+#btn-toggle-all-notas {
+    width: 100%;
+    background: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 0.3rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+#btn-toggle-all-notas:hover {
+    background: #f4f6f8;
 }

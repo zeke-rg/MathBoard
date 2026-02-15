@@ -14,6 +14,7 @@ const dom = {
     //const btnLimpiar = document.getElementById('btn-limpiar');
     btnGuardar: document.getElementById('btn-guardar'),
     btnDibujar: document.getElementById('btn-dibujar'),
+    btnNotas: document.getElementById('btn-notas'),
 
     // HERRAMIENTAS
     btnBorrador: document.getElementById('btnBorrador'),

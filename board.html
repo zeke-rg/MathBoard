@@ -25,6 +25,7 @@
 
         <div class="toolbar-section">
             <button id="btn-guardar">💾</button>
+            <button id="btn-notas">👁️</button>
         </div>
 
         <div class="toolbar-section">
@@ -57,6 +58,12 @@
             <svg id="draw-layer"></svg>
         </section>
 
+        <aside id="panel-notas" class="panel-notas">
+            <h3>📝 Notas</h3>
+            <button id="btn-toggle-all-notas">🙈 Ocultar todas</button>
+            <div id="lista-notas"></div>
+        </aside>
+
     </main>
 
     <script src="libs/katex/katex.min.js"></script>
@@ -66,6 +73,7 @@
     <script src="js/render.js"></script>
     <script src="js/navigation.js"></script>
     <script src="js/draw.js"></script>
+    <script src="js/notes.js"></script>
     <script src="js/board.js"></script>
     <script src="js/toolbar.js"></script>
 </body>

@@ -44,6 +44,7 @@ function actualizarPantalla(hastaPaso) {
     marcarPasoActual(hastaPaso);
     actualizarSizeSVG();
     actualizarVisibilidadTrazos();
+    resaltarNotaActual(hastaPaso);
 }
 
 // Eliminar ultimo paso

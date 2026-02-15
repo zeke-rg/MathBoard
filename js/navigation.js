@@ -28,6 +28,7 @@ function pasoSiguiente() {
 
     marcarPasoActual(getPasoActual());
     actualizarVisibilidadTrazos();
+    resaltarNotaActual(getPasoActual());
 }
 
 
@@ -41,5 +42,6 @@ function pasoAnterior() {
 
     marcarPasoActual(getPasoActual());
     actualizarVisibilidadTrazos();
+    resaltarNotaActual(getPasoActual());
 }
 
